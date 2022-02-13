@@ -11,17 +11,17 @@ class OccupationType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    occupation = graphene.Field(OccupationType, id=graphene.Int())
-    occupations = graphene.List(OccupationType)
+    getOccupation = graphene.Field(OccupationType, id=graphene.Int())
+    getOccupations = graphene.List(OccupationType)
 
-    def resolve_occupation(self, info, **kwargs):
+    def resolve_getOccupation(self, info, **kwargs):
         id = kwargs.get('id')
         if id is not None:
             return Occupation.objects.get(pk=id)
 
         return None
 
-    def resolve_occupations(self, info):
+    def resolve_getOccupations(self, info):
         return Occupation.objects.all()
 
 
@@ -44,7 +44,7 @@ class CreateOccupation(graphene.Mutation):
 
     occupation = graphene.Field(OccupationType)
 
-    @staticmethod
+    @classmethod
     def mutate(cls, root, info, input):
         occupation = Occupation()
         occupation.name = input.name
